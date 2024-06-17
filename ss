@@ -1,13 +1,15 @@
-# Step 1: 使用 CMD 命令定义当前日期的变量
-$cmdGetDate = 'cmd.exe /c "set currentDate=%date:~0,4%-%date:~5,2%-%date:~8,2%"'
-Invoke-Expression $cmdGetDate
+# Step 1: 定义当前日期的变量
+$currentDate = Get-Date -Format "yyyy-MM-dd"
 
-# 获取 CMD 环境变量 currentDate
-$currentDate = (cmd.exe /c echo %currentDate%).Trim()
+# 输出当前日期变量以供检查
+Write-Output "当前日期是: $currentDate"
 
-# Step 2: 使用 CMD 命令生成当前日期的文件
-$cmdCreateFile = "cmd.exe /c echo. > $currentDate.txt"
-Invoke-Expression $cmdCreateFile
+# Step 2: 使用 echo 命令生成当前日期的文件
+# 在 PowerShell 中直接使用 echo 命令创建文件
+$cmdCommand = "echo This is a file created on $currentDate > $currentDate.txt"
+
+# 执行 CMD 命令
+Invoke-Expression $cmdCommand
 
 # 验证文件是否创建成功并输出结果
 if (Test-Path -Path "$currentDate.txt") {
